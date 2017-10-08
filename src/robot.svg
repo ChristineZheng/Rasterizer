@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="500.0px" height="500.0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500"
+	 xml:space="preserve">
+
+<g transform="translate(250 250)">
+	<!-- <g transform="scale(2 2)"> -->
+	<!-- torso -->
+		<polygon fill="#40ff00" points="-50,-50 50,-50 -50,50 "/>
+		<polygon fill="#40ff00" points="-50,50 50,-50 50,50"/>
+
+	<!-- head -->
+	<g transform="translate(0 -55)">
+		<g transform="rotate(45)">
+			<!-- <g transform="scale(.5 .5)"> -->
+			<g transform="scale(.8 .8)">
+				<polygon fill="#40ff00" points="-50,-50 50,-50 -50,50 "/>
+				<polygon fill="#40ff00" points="-50,50 50,-50 50,50"/>
+			</g>
+		</g>
+	</g>
+
+	<!-- eyes -->
+	<g transform="translate(-35 -80)">
+		<g transform="scale(.4 .4)">
+			<polygon fill="#006600" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#006600" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(35 -80)">
+		<g transform="scale(.4 .4)">
+			<polygon fill="#006600" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#006600" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+
+	<!-- eye balls -->
+	<g transform="translate(-35 -80)">
+		<g transform="scale(.3 .3)">
+			<polygon fill="#ffffff" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#ffffff" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(35 -80)">
+		<g transform="scale(.3 .3)">
+			<polygon fill="#ffffff" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#ffffff" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+
+	<!-- eye iris -->
+	<g transform="translate(-35 -80)">
+		<g transform="scale(.2 .2)">
+			<polygon fill="#000000" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#000000" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(35 -80)">
+		<g transform="scale(.2 .2)">
+			<polygon fill="#000000" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#000000" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+
+	<!-- mouth-->
+	<g transform="translate(0 -30)">
+		<g transform="scale(0.3 0.05)">
+			<polygon fill="#EF161F" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#EF161F" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(-28 -40)">
+		<g transform="rotate(45)">
+			<g transform="scale(0.3 0.05)">
+				<polygon fill="#EF161F" points="-50,-50 50,-50 -50,50 "/>
+				<polygon fill="#EF161F" points="-50,50 50,-50 50,50"/>
+			</g>
+		</g>
+	</g>
+	<g transform="translate(28 -40)">
+		<g transform="rotate(-45)">
+			<g transform="scale(0.3 0.05)">
+				<polygon fill="#EF161F" points="-50,-50 50,-50 -50,50 "/>
+				<polygon fill="#EF161F" points="-50,50 50,-50 50,50"/>
+			</g>
+		</g>
+	</g>
+
+	<!-- stomach-->
+<!-- 	<g transform="translate(0 100)">
+		<g transform="scale(.7 .7)">
+			<polygon fill="#ffffff" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#ffffff" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>  -->
+
+	<!-- hat -->
+	<g transform="translate(0 -120)">
+		<g transform="scale(.9 .2)">
+			<polygon fill="#3498DB" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#3498DB" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(0 -130)">
+		<g transform="scale(.8 .2)">
+			<polygon fill="#3498DB" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#3498DB" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(0 -140)">
+		<g transform="scale(.7 .2)">
+			<polygon fill="#3498DB" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#3498DB" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(0 -150)">
+		<g transform="scale(.6 .2)">
+			<polygon fill="#3498DB" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#3498DB" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(0 -160)">
+		<g transform="scale(.5 .2)">
+			<polygon fill="#3498DB" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#3498DB" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(0 -170)">
+		<g transform="scale(.4 .2)">
+			<polygon fill="#3498DB" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#3498DB" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(0 -180)">
+		<g transform="scale(.3 .2)">
+			<polygon fill="#3498DB" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#3498DB" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+	<g transform="translate(0 -190)">
+		<g transform="scale(.2 .2)">
+			<polygon fill="#ffff00" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#ffff00" points="-50,50 50,-50 50,50"/>
+		</g>
+	</g>
+
+
+	<!-- left leg -->
+	<g transform="translate(-40 90)">
+		<g transform="scale(.3 .7)">
+			<polygon fill="#248f24" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#248f24" points="-50,50 50,-50 50,50"/>
+		</g>
+		<g transform="translate(-20 60)">
+			<g transform="rotate(45)">
+				<g transform="scale(.2 .6)">
+					<polygon fill="#248f24" points="-50,-50 50,-50 -50,50 "/>
+					<polygon fill="#248f24" points="-50,50 50,-50 50,50"/>
+				</g>
+			</g>
+		</g>
+	</g>
+
+	<!-- right leg -->
+	<g transform="translate(40 90)">
+		<g transform="scale(.3 .7)">
+			<polygon fill="#248f24" points="-50,-50 50,-50 -50,50 "/>
+			<polygon fill="#248f24" points="-50,50 50,-50 50,50"/>
+		</g>
+		<g transform="translate(20 60)">
+			<g transform="rotate(-45)">
+				<g transform="scale(.2 .6)">
+					<polygon fill="#248f24" points="-50,-50 50,-50 -50,50 "/>
+					<polygon fill="#248f24" points="-50,50 50,-50 50,50"/>
+				</g>
+			</g>
+		</g>
+	</g>
+
+	<!-- left hand -->
+	<g transform="translate(-90 -40)">
+		<g transform="rotate(10)">
+			<g transform="scale(.6 .3)">
+				<polygon fill="#248f24" points="-50,-50 50,-50 -50,50 "/>
+				<polygon fill="#248f24" points="-50,50 50,-50 50,50"/>
+			</g>
+		</g>
+		<g transform="translate(-56 -30)">
+			<g transform="rotate(45)">
+				<g transform="scale(.6 .2)">
+					<polygon fill="#248f24" points="-50,-50 50,-50 -50,50 "/>
+					<polygon fill="#248f24" points="-50,50 50,-50 50,50"/>
+				</g>
+			</g>
+		</g>
+	</g>
+
+	<!-- right hand -->
+	<g transform="translate(90 -40)">
+		<g transform="rotate(-10)">
+			<g transform="scale(.6 .3)">
+				<polygon fill="#248f24" points="-50,-50 50,-50 -50,50 "/>
+				<polygon fill="#248f24" points="-50,50 50,-50 50,50"/>
+			</g>
+		</g>
+		<g transform="translate(56 -30)">
+			<g transform="rotate(-45)">
+				<g transform="scale(.6 .2)">
+					<polygon fill="#248f24" points="-50,-50 50,-50 -50,50 "/>
+					<polygon fill="#248f24" points="-50,50 50,-50 50,50"/>
+				</g>
+			</g>
+		</g>
+	</g>
+
+</g>
+
+
+</svg>

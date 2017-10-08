@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  body {
+    padding: 100px;
+    /*width: 1000px;*/
+    width: 700px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+    background-color: #EBDEF0;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+      /*border: 1px solid #dddddd;*/
+      border: 1px solid #0b237c;
+      text-align: left;
+      padding: 8px;
+  }
+
+  tr:nth-child(even) {
+      background-color: #dddddd;
+  }
+</style>
+<title>CS 184 Rasterizer</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2017</h1>
+<h1 align="middle">Project 1: Rasterizer</h1>
+<h2 align="middle">Christine Guomin Zheng, CS184-aad</h2>
+
+<br><br>
+
+<div>
+
+<h1 align="middle">Overview</h1>
+<p>In this project, I implemented a rasterizer that allows me to take an image and draw it on a screen by converting it into a raster image with calculating pixel values. It takes a stream of pixels and transforms them into corresponding 2 dimensional points on the screen. I started with points and lines drawing, and then moved on to single-color drawing and transformations Supersampling is used to antialias the rasterized triangles. Barycentric coordinates are calculated to get the appropriate color from the image onto the screen. Second part of the project is about texture mapping. Different sampling schemes are implemented and compared to get a better viewing of the images. UV coordinates are computed to map the corresponding pixels onto a 3D model. Nearest sampling, bilinear sampling, and trilinear sampling are tested to see the results. </p>
+
+<br><br>
+
+<h1 align="middle">Section I: Rasterization</h1>
+
+<br><br>
+
+<h2 align="middle">Part 1: Rasterizing single-color triangles</h2>
+
+<p>Triangle rasterizing is implemented here by iterating the points that are only within the input triangle. I first used the x and y coordinate values of the triangle's three vertices to find the bounding box that bounded by maximum and minimum bounds of the points that need to be iterated. For each sample point, I used the three line test algorithm to determine if the sample point is inside the triangle. Then I fill in the color.</p>
+<p>I had a runtime problem when I ran the images in part 5 and 6 because I checked all the sample points in the whole samplebuffer. It took a long time for the computer to run between different levels. I then realized that I should only check the points within the input triangle's bounding box. So I reimplemented the code and it runs a lot faster. </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="1.png" align="left" width="400px"/>
+        <figcaption align="left">Fig 1. Lines</figcaption>
+      </td>
+      <td>
+        <img src="2.png" align="right" width="400px"/>
+        <figcaption align="left">Fig 2. Pattens</figcaption>
+      </td>
+    </tr>
+    <br>
+    <tr>
+      <td>
+        <img src="3.png" align="left" width="400px"/>
+        <figcaption align="left">Fig 3. Dragon</figcaption>
+      </td>
+      <td>
+        <img src="triangle/1.png" align="right" width="400px"/>
+        <figcaption align="left">Fig 4. Triangle</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<br><br>
+
+<h2 align="middle">Part 2: Antialiasing triangles</h2>
+
+<p>Antialiasing is implemented by supersampling. Each pixel in part 1 is now divided into more sub-pixels to produce a better smoother edge then just sampling once. The key here is that the color of the pixel in part 1 is now the average of all the colors from the sub-pixels. Each pixel is now represented based on <code>sample_rate</code> sub-pixels. The number of sample points per pixel side is now  <code>sqrt(sample_rate)</code>. For those sub-pixels that are within the triangle, I summed up their colors and then divided by the total number of sub-pixels to get the final color of the pixel. Below pictures from left to right have <code> sample_rate </code> as 1, 4, 9, 16, respectively.</p>
+
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="triangle/1.png" align="left" width="400px"/>
+        <figcaption align="left">Fig 5. Sample_rate = 1</figcaption>
+      </td>
+      <td>
+        <img src="triangle/2.png" align="right" width="400px"/>
+        <figcaption align="left">Fig 6. Sample_rate = 4</figcaption>
+      </td>
+    </tr>
+    <br>
+    <tr>
+      <td>
+        <img src="triangle/3.png" align="left" width="400px"/>
+        <figcaption align="left">Fig 7. Sample_rate = 9</figcaption>
+      </td>
+      <td>
+        <img src="triangle/4.png" align="right" width="400px"/>
+        <figcaption align="left">Fig 8. Sample_rate = 16</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<br><br>
+
+<h2 align="middle">Part 3: Transforms</h2>
+
+<p>I implemented translate, scale, and rotate functions to display a robot. For translate, I updated the dx and dy as the distances move in x and y direction in a 3x3 matrix. For scale, I scale the x and y coordinates by the input scaling factor. For rotation, I scale the upper 4 coordinates in the 3D matrix by <code> cost(radian), -sin(radian), sin(radian), cos(radian)</code>, respectively. I calculated the radian by dividing by 360 and then multiply by <code> 2 * Pi</code>. </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="translate.png" align="left" width="200px"/>
+        <figcaption align="left">Fig 9. Translate</figcaption>
+      </td>
+      <td>
+        <img src="scale.png" align="middle" width="200px"/>
+        <figcaption align="middle">Fig 10. Scale</figcaption>
+      </td>
+      <td>
+        <img src="rotate.png" align="right" width="300px"/>
+        <figcaption align="middle">Fig 11. Rotate</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="robot.png" align="middle" width="400px"/>
+        <figcaption align="middle">Fig 12. Robot</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<p> I made the below "Happy frog man with a Cal hat" by rotations, scalings, and translation. </p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="frog.png" align="middle" width="450px" height="350px"/>
+        <figcaption align="middle">Fig 13. Happy frog man with a Cal hat</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<br><br>
+
+<h2 align="middle">Section II: Sampling</h2>
+
+<br><br>
+
+<h2 align="middle">Part 4: Barycentric coordinates</h2>
+
+<p>In part 4, barycentric coordinates are used to linearly interpolate colors between vertices. It can determine if a point is inside the triangle, and describes the mass distribution of a triangle. Here, I used the barycentric coordinates <code> (alpha, beta, gamma)</code> to find the color of a sample point inside triangle that expresses the weighted average of the colors from the vertices of the triangle. Alpha is the ratio of area of triangle(p,B,C) over the total area of triangle(A,B,C). Beta is the ratio of area of triangle(p,A,C) over the total area of triangle(A,B,C). Gamma is the ratio of the area of triangle(p,A,B) over the total area of triangle(A,B,C). </p>
+<p> <code>alpha = (-(x-x1)*(y2-y1) + (y-y1)*(x2-x1)) / (-(x0-x1)*(y2-y1) + (y0-y1)*(x2-x1))</code> </p>
+<p> <code>beta = (-(x-x2)*(y0-y2) + (y-y2)*(x0-x2)) / (-(x1-x2)*(y0-y2) + (y1-y2)*(x0-x2))</code> </p>
+<p> <code> gamma = 1 - alpha - beta </code> </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="circle.png" align="middle" width="600px"/>
+        <figcaption align="middle">Fig 14. Barycentric coordinate for color mapping - circle</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="triangle.png" align="middle" width="600px"/>
+        <figcaption align="middle">Fig 15. Barycentric coordinate for color mapping - triangle</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<br><br>
+
+<h2 align="middle">Part 5: "Pixel sampling" for texture mapping</h2>
+
+<p> In part 5, I used barycentric coordinate to find the coordinates between pixel and texel for texture mapping. Texel is the sample texture values. Sometimes texel and pixel are not one-to-one mapping due to magnification and minification. In this part, two sampling algorithms: nearest sampling and bilinear sampling are implemented and explored to see the difference. Nearest sampling is to copy the color of the texel that it is closest to. The implementation is easier and more efficient. Bilinear sampling is bilinear interpolation. It looks for four nearest sample points and interpolate their colors to get the weighted average color of the texel. It has more computations: calculate the 4 neighbors' colors and 3 interpolations. But it results in a more accurate texture mapping especially when magnification or minification happens. </p>
+
+<p> Nearest sampling causes the image more blurry. Because only the nearest texel is considered. Some pixels, that are supposed to be mapped to, are missing. Bilinear sampling takes the four neighbor pixels and interpolated to get the average weighted color. It gives a more accurate color for each texel. So it results in a smooth change of color from one texel to another, rather than a big jump in the cross boundary between two pixels. However, bilinear sampling is costly due to more computations. </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="earth_rate_1_nearest.png" align="left" width="350px"/>
+        <figcaption align="left">Fig 16. Nearest sampling (sample_rate = 1)</figcaption>
+      </td>
+      <td>
+        <img src="earth_rate_16_nearest.png" align="right" width="350px"/>
+        <figcaption align="left">Fig 17. Nearest sampling (sample_rate = 16)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="earth_bilinear_sample_rate_1.png" align="left" width="350px"/>
+        <figcaption align="left">Fig 18. Bilinear sampling (sample_rate = 1)</figcaption>
+      </td>
+      <td>
+        <img src="earth_bilinear_16.png" align="right" width="350px"/>
+        <figcaption align="left">Fig 19. Bilinear sampling (sample_rate = 16)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<br><br>
+
+<h2 align="middle">Part 6: "Level sampling" with mipmaps for texture mapping</h2>
+
+<p>Different resolution images may need different mappings between pixel and texture. In part 6, Mipmap is used to store the texture map at different level. Level 0 is the original texture scale. Every level up creates a downsampled scale. I implemented the get_level function where it calculates the correct Mipmap level using the uv coordinates. UV coordinates are scaled by the width and height of the texture. I then applied the below equation to get the correct level. </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="get_level_fn.png" align="middle" width="400px"/>
+        <figcaption align="middle">Fig 20. Formula to calculate correct level</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p> If couple of the neighboring screen texels in the texture map are covered by a pixel, then we want to lower the resolution of the texture, which means get a higher level in the mipmap. So we downsampled the texture map. On the other hand, if less screen texels are covered by a pixel, we want to increase the resolution of the texture so that we can get a better and more detailed visulization. In this case, we either choose the lower level in the mipmap or stay with the original resolution. Trilinear sampling scheme is implemented. It takes in the two closest levels that are above and below the exact level, and then interpolate the two results after calling bilinear on the two levels. </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="cal_nearest.png" align="left" width="350px"/>
+        <figcaption align="left">Fig 21. L_ZERO + P_NEAREST</figcaption>
+      </td>
+      <td>
+        <img src="cal_bilinear.png" align="right" width="350px"/>
+        <figcaption align="left">Fig 22. L_ZERO + P_BILINEAR</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p> Nearest neighbor sampling ignores the 4 neighbors' values. When the images are zoomed in, bilinear scheme provides a more smooth color in the boundaries, while there are big color jumps in nearest scheme. But when zoom in more, bilinear scheme gives a more bluerry effect. If the image is low resolution, we want to use nearest sampling scheme and lower level of texture to prevent bluerry.</p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="cal_L_nearest_P_nearest.png" align="left" width="350px"/>
+        <figcaption align="left">Fig 23. L_NEAREST + P_NEAREST</figcaption>
+      </td>
+      <td>
+        <img src="cal_bilinear_levelnearest.png" align="right" width="350px"/>
+        <figcaption align="left">Fig 24. L_NEAREST + P_BILINEAR</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p> For this image, since its resolution is low, the higher level of the mipmap produce a more blurry visual effect. So we want lower mipmap level to relieve antialiasing. But when the high resolution image is zoomed out, we want bilinear scheme to consider multiple pixels' values that are around to handle the big jump of colors near the boundaries. For this image, the best scheme is to use mipmap and nearest sampling.  </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="cal_L_bilinear_P_nearest.png" align="left" width="350px"/>
+        <figcaption align="left">Fig 25. L_LINEAR + P_NEAREST</figcaption>
+      </td>
+      <td>
+        <img src="cal_bilinearsampling_bilinearlevel.png" align="right" width="350px"/>
+        <figcaption align="left">Fig 26. L_LINEAR + P_BILINEAR</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<br><br>
+
+<h3 align="middle"> Different Image</h3>
+<p> I spent a lot of time testing the above schemes in different images. Again, I think that the lower the resolution of the image, the more blurry it becomes after running bilinear scheme and zooming in. While it is clearer if the image has higher resolution with running bilinear scheme and zooming out. For below image of bird, the best scheme is to use mipmap and bilinear sampling. </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="bird/level0_Pnearest.png" align="left" width="350px"/>
+        <figcaption align="left">Fig 27. L_ZERO + P_NEAREST</figcaption>
+      </td>
+      <td>
+        <img src="bird/level0_Pbilinear.png" align="right" width="350px"/>
+        <figcaption align="left">Fig 28. L_ZERO + P_BILINEAR</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Without mipmapping, the one from running nearest results in a distint color jump in the boundaries, which can be observed clearly through the bird's eye (Fig 22). With bilinear scheme, it smooths out the boundaries a bit, but it is still not smooth enough when zooming in the eye. </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="bird/levelnearest_Pnearest.png" align="left" width="350px"/>
+        <figcaption align="left">Fig 29. L_NEAREST + P_NEAREST</figcaption>
+      </td>
+      <td>
+        <img src="bird/levelnearest_Pbilinear.png" align="right" width="350px"/>
+        <figcaption align="left">Fig 30. L_NEARSET + P_BILINEAR</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<p> Using nearest level scheme, both the ones of nearest pixel sampling and bilinear pixel sampling give a smoother color change in the boundaries compared to level 0. The colors in bilinear pixel sampling in the boundaries are slightly more spread out then the one in nearest pixel sampling.  </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="bird/levelbilinear_Pnearest.png" align="left" width="350px"/>
+        <figcaption align="left">Fig 31. L_LINEAR + P_NEAREST</figcaption>
+      </td>
+      <td>
+        <img src="bird/levelbilinear_Pbilinear.png" align="right" width="350px"/>
+        <figcaption align="left">Fig 32. L_LINEAR + P_BILINEAR</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<p> Using bilinear level interpolation makes the colors of pixels spread out more, but they look blurry now. If this image is higher resolution, it may look less blurry when zooming out with bilinear level interpolation scheme.  </p>
+
+<br><br>
+
+<!-- <figcaption align="middle">Fig 28. Scheme Runtime Comparison</figcaption> -->
+<h3 align="middle">Fig 33. Scheme Runtime Comparison</h3>
+<table>
+  <tr>
+    <th>Pixel Sampling</th>
+    <th>L_ZERO</th>
+    <th>L_NEAREST</th>
+    <th>L_BILINEAR</th>
+  </tr>
+  <tr>
+    <td>P_NEAREST, rate = 1</td>
+    <td>0.061530667</td>
+    <td>0.069146333</td>
+    <td>0.078383333</td>
+  </tr>
+  <tr>
+    <td>P_NEAREST, rate = 16</td>
+    <td>0.48159</td>
+    <td>0.555108333</td>
+    <td>0.695209</td>
+  </tr>
+  <tr>
+    <td>P_BILINEAR, rate = 1</td>
+    <td>0.066402333</td>
+    <td>0.067130667</td>
+    <td>0.075387</td>
+  </tr>
+  <tr>
+    <td>P_BILINEAR, rate = 16</td>
+    <td>0.508404333</td>
+    <td>0.553235333</td>
+    <td>0.704286333</td>
+  </tr>
+</table>
+
+<p> Each of the above values is calculated based on the average of three testing values. We can see that here is an slight increase in the runtime from no level sampling to level sampling for both sample rate 1 and 16. This is expected because level sampling requires more computations. There is also an increase in the runtime from sample rate 1 to 16. Because each pixel is now divided into 16 sub-pixels, which requires more computations and more memory usages. Mipmapping can be used to remove the visual artifacts and get a better quality image. But the tradeoff is it takes more time and memory, which is costly. </p>
+
+<br><br>
+
+<h2 align="middle">Part 7: Draw something interesting!</h2>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="frog.png" align="middle" width="450px" height="350px"/>
+        <figcaption align="middle">Fig 34. Happy frog man with a Cal hat</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<p> Hope it'll make your day! :) </p>
+
+</body>
+</html>
